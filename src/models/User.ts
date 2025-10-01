@@ -32,3 +32,7 @@ const UserSchema: Schema<User> = new Schema({
     isAcceptingMessage: { type: Boolean, default: true },
     messages: { type: [MessageSchema], default: [] }
 });
+
+const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model("User", UserSchema)
+ 
+export default UserModel;
