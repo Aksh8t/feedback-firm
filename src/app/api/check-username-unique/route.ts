@@ -29,11 +29,31 @@ export async function GET(request: Request) {
         },
         { status: 400 }
       );
-      }
-      
+    }
 
+    const { username } = result.data;
+    const existingVerifiedUser = await UserModel.findOne({
+      username,
+      isVerified: true,
+    });
 
-      
+    if (existingVerifiedUser) {
+      return Response.json(
+        {
+          success: false,
+          message: "Username is already taken",
+        },
+        { status: 200 }
+      );
+    }
+
+    return Response.json(
+      {
+        success: true,
+        message: "Username is available",
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error checking username uniqueness:", error);
     return Response.json(
