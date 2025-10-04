@@ -2,7 +2,6 @@ import dbConnect from "@/lib/dbConnect";
 import { UsernameValidation } from "@/schemas/signUpSchema";
 import z, { success } from "zod";
 import UserModel from "@/models/User";
-import { username } from "better-auth/plugins";
 
 const UsernameQuerySchema = z.object({
   username: UsernameValidation,
