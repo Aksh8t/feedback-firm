@@ -5,8 +5,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDebounceValue } from "usehooks-ts";
 import * as z from "zod";
+
+// Custom debounce hook
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,17 +34,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import axios, { AxiosError } from "axios";
-import {
-  Loader2,
-  Mail,
-  Lock,
-  ArrowRight,
-  User,
-  Eye,
-  EyeOff,
-  CheckCircle2,
-  XCircle,
-} from "lucide-react";
+import { Loader2, Mail, Lock, ArrowRight, User, Eye, EyeOff, CheckCircle2, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
 
@@ -38,7 +44,7 @@ export default function SignUpForm() {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const debouncedUsername = useDebounceValue(username, 300);
+  const debouncedUsername = useDebounce(username, 300);
 
   const router = useRouter();
 
@@ -78,17 +84,23 @@ export default function SignUpForm() {
     setIsSubmitting(true);
     try {
       const response = await axios.post<ApiResponse>("/api/sign-up", data);
-      toast.success("Account created!", { description: response.data.message });
+
+      toast.success("Account created!", {
+        description: response.data.message,
+      });
+
       router.replace(`/verify/${username}`);
     } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage =
-        axiosError.response?.data.message ??
-        "There was a problem with your sign-up. Please try again.";
+      console.error("Error during sign-up:", error);
 
-      toast.error("Sign Up Failed", { description: errorMessage });
-    } finally {
-      setIsSubmitting(false); // ✅ fixes bug
+      const axiosError = error as AxiosError<ApiResponse>;
+      let errorMessage = axiosError.response?.data.message ?? "There was a problem with your sign-up. Please try again.";
+
+      toast.error("Sign Up Failed", {
+        description: errorMessage,
+      });
+
+      setIsSubmitting(false);
     }
   };
 
@@ -98,7 +110,7 @@ export default function SignUpForm() {
     <div className="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
       {/* Animated grid background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-
+      
       {/* Gradient orbs for glass effect depth */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-gray-200 to-gray-100 rounded-full blur-3xl opacity-60"></div>
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-gray-300 to-gray-200 rounded-full blur-3xl opacity-60"></div>
@@ -118,20 +130,13 @@ export default function SignUpForm() {
         <div className="bg-white/40 backdrop-blur-2xl border border-white/60 rounded-3xl shadow-2xl overflow-hidden">
           {/* Card header with glass effect */}
           <div className="bg-white/30 backdrop-blur-xl p-6 border-b border-white/40">
-            <h2 className="text-2xl font-semibold text-black">
-              Create Account
-            </h2>
-            <p className="text-gray-600 text-sm mt-1">
-              Join us for honest conversations
-            </p>
+            <h2 className="text-2xl font-semibold text-black">Create Account</h2>
+            <p className="text-gray-600 text-sm mt-1">Join us for honest conversations</p>
           </div>
 
           <div className="p-8">
             <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
-              >
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 {/* Username Field */}
                 <FormField
                   name="username"
@@ -171,9 +176,7 @@ export default function SignUpForm() {
                       {!isCheckingUsername && usernameMessage && (
                         <p
                           className={`text-xs mt-2 flex items-center gap-1 ${
-                            isUsernameAvailable
-                              ? "text-green-600"
-                              : "text-red-600"
+                            isUsernameAvailable ? "text-green-600" : "text-red-600"
                           }`}
                         >
                           {usernameMessage}
@@ -301,17 +304,11 @@ export default function SignUpForm() {
           </p>
           <p className="text-xs text-gray-600">
             By continuing, you agree to our{" "}
-            <Link
-              href="/terms"
-              className="text-gray-700 hover:text-black transition-colors underline underline-offset-2"
-            >
+            <Link href="/terms" className="text-gray-700 hover:text-black transition-colors underline underline-offset-2">
               Terms
             </Link>{" "}
             and{" "}
-            <Link
-              href="/privacy"
-              className="text-gray-700 hover:text-black transition-colors underline underline-offset-2"
-            >
+            <Link href="/privacy" className="text-gray-700 hover:text-black transition-colors underline underline-offset-2">
               Privacy Policy
             </Link>
           </p>
