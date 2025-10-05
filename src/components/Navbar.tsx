@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 
 function ModernNavbar() {
   const { data: session } = useSession();
-  const user: User = session?.user;
+  const user = session?.user as User | undefined;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
@@ -59,7 +59,7 @@ function ModernNavbar() {
               {session ? (
                 <>
                   <span className="text-sm text-gray-400 font-medium">
-                    {user.username || user.email}
+                    {user?.username || user?.email}
                   </span>
                   <Button
                     onClick={() => signOut()}
@@ -121,7 +121,7 @@ function ModernNavbar() {
             {session && (
               <div className="pb-4 border-b border-white/10">
                 <span className="text-sm text-gray-400">
-                  Welcome, {user.username || user.email}
+                  Welcome, {user?.username || user?.email || "Guest"}
                 </span>
               </div>
             )}

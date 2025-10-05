@@ -156,7 +156,7 @@ export default function VerifyAccount() {
               </div>
               <div className="relative flex justify-center text-xs">
                 <span className="px-4 bg-white/40 backdrop-blur-sm text-gray-600">
-                  Didn't receive the code?
+                  Did Not Receive Code?
                 </span>
               </div>
             </div>
@@ -184,9 +184,7 @@ export default function VerifyAccount() {
           </p>
           <p className="text-xs text-gray-600">
             Verified as{" "}
-            <span className="font-semibold text-black">
-              @{params.username}
-            </span>
+            <span className="font-semibold text-black">@{params.username}</span>
           </p>
         </div>
       </div>

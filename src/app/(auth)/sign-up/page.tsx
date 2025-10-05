@@ -121,7 +121,7 @@ export default function SignUpForm() {
       console.error("Error during sign-up:", error);
 
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage =
+      const errorMessage =
         axiosError.response?.data.message ??
         "There was a problem with your sign-up. Please try again.";
 
