@@ -19,12 +19,12 @@ export async function POST(req: Request) {
     });
 
     return result.toTextStreamResponse();
-  } catch (error: any) {
+  } catch (error) {
     console.error("An unexpected error occurred:", error);
     return NextResponse.json(
       {
         error: "Failed to generate content",
-        message: error?.message || "Unknown error",
+        message: "Unknown error",
       },
       { status: 500 }
     );
