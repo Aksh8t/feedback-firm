@@ -7,7 +7,7 @@ import UserModel from "@/models/User";
 export async function POST(params: Request) {
   await dbConnect();
   const session = await getServerSession(authOptions);
-  const user: User = session?.user;
+  const user = session?.user as User | undefined;
 
   if (!session || !session.user) {
     return Response.json(
@@ -16,7 +16,7 @@ export async function POST(params: Request) {
     );
   }
 
-  const userId = user._id;
+  const userId = user?._id;
   const { acceptMessages } = await params.json();
 
   try {
@@ -52,7 +52,7 @@ export async function POST(params: Request) {
 export async function GET(params: Request) {
   await dbConnect();
   const session = await getServerSession(authOptions);
-  const user: User = session?.user;
+  const user = session?.user as User | undefined;
 
   if (!session || !session.user) {
     return Response.json(
@@ -61,7 +61,7 @@ export async function GET(params: Request) {
     );
   }
 
-  const userId = user._id;
+  const userId = user?._id;
   try {
     const foundUser = await UserModel.findById(userId);
     if (!foundUser) {
@@ -74,7 +74,7 @@ export async function GET(params: Request) {
       {
         success: true,
         message: "User fetched successfully",
-        data: foundUser.isAcceptingMessage,
+        data: foundUser.isAcceptingMessages,
       },
       { status: 200 }
     );
