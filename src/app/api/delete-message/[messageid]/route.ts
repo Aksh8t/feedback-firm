@@ -1,18 +1,19 @@
-import UserModel from "@/models/User";
-import { getServerSession } from "next-auth/next";
-import dbConnect from "@/lib/dbConnect";
-import { User } from "next-auth";
-import { Message } from "@/models/User";
 import { NextRequest } from "next/server";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/options";
+import dbConnect from "@/lib/dbConnect";
+import UserModel from "@/models/User";
+import { User } from "next-auth";
+
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { messageid: string } }
 ) {
   const messageId = params.messageid;
   await dbConnect();
   const session = await getServerSession(authOptions);
-  const _user: User = session?.user;
+  const _user = session?.user as User | undefined;
+
   if (!session || !_user) {
     return Response.json(
       { success: false, message: "Not authenticated" },
