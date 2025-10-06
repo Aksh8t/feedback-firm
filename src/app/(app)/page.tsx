@@ -288,7 +288,9 @@ export default function Home() {
           </ul>
           <div className="flex justify-center gap-5 ">
             <div className="text-center pt-40">
-              <p className="text-sm text-emerald-500 font-semibold">Support with UPI</p>
+              <p className="text-sm text-emerald-500 font-semibold">
+                Support with UPI
+              </p>
             </div>
             <Image
               src="/images/qr.jpg"
