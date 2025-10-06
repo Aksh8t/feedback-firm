@@ -231,7 +231,5 @@ npm run dev
 
 ⭐ Star this repo if you find it helpful! ⭐
 
-[🔝 Back to Top](#-truly--anonymous-feedback-platform)
-
 </div>
 ```
