@@ -9,6 +9,24 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  FaTwitter,
+  FaInstagram,
+  FaGithub,
+  FaLinkedin,
+  FaYoutube,
+} from "react-icons/fa";
+
+const socials = [
+  { id: "twitter", icon: <FaTwitter />, url: "https://twitter.com/aksh8t" },
+  { id: "github", icon: <FaGithub />, url: "https://github.com/Aksh8t" },
+  {
+    id: "linkedin",
+    icon: <FaLinkedin />,
+    url: "https://linkedin.com/in/Aksh8t",
+  },
+];
+import Image from "next/image";
 
 const messages = [
   {
@@ -110,13 +128,17 @@ export default function Home() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-            <button className="group relative px-8 py-4 bg-white text-black rounded-xl font-semibold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20">
+            <button
+              onClick={() => (window.location.href = "/sign-up")}
+              className="group relative px-8 py-4 bg-white text-black rounded-xl font-semibold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+            >
               <div className="absolute inset-0 bg-gradient-to-r from-gray-100 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative z-10 flex items-center gap-2">
                 Get Started
-                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="w-5 h-5 transition-transform duration-100 group-hover:translate-x-1" />
               </span>
             </button>
+
             <button className="px-8 py-4 border border-white/20 hover:border-white/40 rounded-xl font-semibold backdrop-blur-sm transition-all duration-300 hover:bg-white/5 hover:scale-105">
               Learn More
             </button>
@@ -145,7 +167,7 @@ export default function Home() {
             <div
               key={i}
               className="group relative p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:border-white/30 hover:bg-white/10 animate-fade-in-up"
-              style={{ animationDelay: `${i * 150}ms` }}
+              style={{ animationDelay: `${i * 100}ms` }}
             >
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="relative z-10">
@@ -166,7 +188,7 @@ export default function Home() {
         {/* Messages Carousel */}
         <div
           className="max-w-3xl mx-auto w-full animate-fade-in-up"
-          style={{ animationDelay: "600ms" }}
+          style={{ animationDelay: "400ms" }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-white">
             What People Are Saying
@@ -242,8 +264,40 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/10 bg-black/80 backdrop-blur-xl mt-20">
-        <div className="max-w-6xl mx-auto px-6 py-12 text-center">
-          <p className="text-gray-500">© 2025 Truly. All rights reserved.</p>
+        <div className="max-w-5xl mx-auto px-4 py-2 text-center">
+          <p className="text-gray-500">
+            © {new Date().getFullYear()} Truly. All rights reserved. Built By{" "}
+            <span className="text-emerald-500 font-semibold">
+              Akshat Tiwari
+            </span>
+          </p>
+        </div>
+        <div className="flex flex-wrap justify-between items-center px-10 pb-15">
+          <ul className="flex gap-5">
+            {socials.map((item) => (
+              <a
+                key={item.id}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xl p-3 rounded-full bg-white/10 hover:bg-blue-500 transition-colors duration-300 backdrop-blur-md border border-white/10 hover:scale-110 transform"
+              >
+                {item.icon}
+              </a>
+            ))}
+          </ul>
+          <div className="flex justify-center gap-5 ">
+            <div className="text-center pt-40">
+              <p className="text-sm text-emerald-500 font-semibold">Support with UPI</p>
+            </div>
+            <Image
+              src="/images/qr.jpg"
+              width={500}
+              height={800}
+              alt="UPI QR Code"
+              className="w-24 h-24 sm:w-50 sm:h-80 rounded-lg border border-white/10 shadow-md"
+            />
+          </div>
         </div>
       </footer>
 

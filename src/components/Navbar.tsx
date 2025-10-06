@@ -155,8 +155,7 @@ function ModernNavbar() {
                   <Link href="/sign-in" className="w-full">
                     <Button
                       onClick={() => setIsMobileMenuOpen(false)}
-                      variant="outline"
-                      className="w-full border-white/20 text-white hover:bg-white/5 py-3 rounded-lg font-medium"
+                      className="w-full bg-white text-black hover:bg-gray-200 py-3 rounded-lg font-semibold"
                     >
                       Login
                     </Button>
